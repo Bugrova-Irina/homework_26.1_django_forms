@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block title %}Продукт{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="card mb-4 box-shadow">
+                <img src="{{ product.photo | media_filter }}">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ product.price }} р.</h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>- Описание: {{ product.description }}</li>
+                        <li>- Категория: {{ product.category }}</li>
+                        <li>- Товар создан: {{ product.created_at | date:"d M Y" }}</li>
+                        <li>- Товар обновлен: {{ product.updated_at | date:"d M Y" }}</li>
+                    </ul>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:home' %}" role="button">В каталог</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+{% endblock %}

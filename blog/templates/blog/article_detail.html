@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block title %}Статья{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="card mb-4 box-shadow">
+                <img src="{{ article.photo | media_filter }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{ article.content }}</p>
+                    <p class="card-text">Статья создана: {{ article.created_at }}</p>
+                    <p class="card-text">Количество просмотров: {{ article.view_counter }}</p>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blog:articles_list' %}" role="button">Назад</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+{% endblock %}

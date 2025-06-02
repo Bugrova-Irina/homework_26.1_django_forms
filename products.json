@@ -1,0 +1,41 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "Молоко",
+        "description": "Молоко в пластиковой бутылке 1 л",
+        "photo": "",
+        "category": 1,
+        "price": "89.00",
+        "created_at": "2025-05-05T13:46:57.541Z",
+        "updated_at": "2025-05-05T13:46:57.541Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "Гарнитура New Bee LC-B41",
+        "description": "Блютуз гарнитура для телефона",
+        "photo": "",
+        "category": 2,
+        "price": "1267.00",
+        "created_at": "2025-05-05T17:08:03.421Z",
+        "updated_at": "2025-05-05T17:08:03.421Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "Наушники Sennheiser HD 200 Pro",
+        "description": "Проводные наушники с оголовьем и системой активного шумоподавления",
+        "photo": "",
+        "category": 2,
+        "price": "5505.00",
+        "created_at": "2025-05-05T17:12:28.725Z",
+        "updated_at": "2025-05-05T17:12:28.725Z"
+    }
+}
+]

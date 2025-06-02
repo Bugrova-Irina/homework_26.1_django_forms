@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% block content %}
+<section class="py-5 text-center">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <p>
+                <a class="p-2 btn btn-outline-primary" href="{% url 'blog:article_create' %}">Добавить статью</a>
+            </p>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="row text-center">
+        {% for article in articles %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <img src="{{ article.photo | media_filter }}">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ article.title }}</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>- Описание: {{ article.content | truncatechars:100 }}</li>
+                        <li>- Статья создана: {{ article.created_at }}</li>
+                        <li>- Количество просмотров: {{ article.view_counter }}</li>
+                    </ul>
+                    <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blog:article_detail' article.pk %}">Читать</a>
+                    <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blog:article_update' article.pk %}">Редактировать</a>
+                    <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blog:article_delete' article.pk %}">Удалить</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

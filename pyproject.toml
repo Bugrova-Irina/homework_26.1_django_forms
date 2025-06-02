@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "homework-26-1-django-forms"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "homework_26"}]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+django = "^5.2.1"
+pillow = "^11.2.1"
+psycopg2 = "^2.9.10"
+python-dotenv = "^1.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
