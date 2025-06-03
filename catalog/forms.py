@@ -76,3 +76,9 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
                 raise ValidationError(f'Использование слова "{word}" запрещено.')
 
         return product_description
+
+    def clean_price(self): # Проверка на то, что цена товара > 0
+        price = self.cleaned_data['price']
+        if price < 0:
+            raise ValidationError('Цена товара не может быть меньше нуля.')
+        return price
