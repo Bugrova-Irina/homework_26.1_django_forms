@@ -5,7 +5,7 @@
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
             <p>
-                <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home' %}">Добавить товар</a>
+                <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_create' %}">Добавить товар</a>
             </p>
         </div>
     </div>
@@ -26,6 +26,8 @@
                         <li>- Категория: {{ product.category }}</li>
                     </ul>
                     <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_detail' product.pk %}">Купить</a>
+                    <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_update' product.pk %}">Редактировать</a>
+                    <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_delete' product.pk %}">Удалить</a>
                 </div>
             </div>
         </div>

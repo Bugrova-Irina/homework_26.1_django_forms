@@ -1,9 +1,23 @@
-from django.forms import BooleanField, ModelForm
+from django import forms
+from django.core.exceptions import ValidationError
+from django.forms import BooleanField
 
 from catalog.models import Product
 
 
-class StyleFormMixin:
+FORBIDDEN_WORDS = [
+    'казино',
+    'криптовалюта',
+    'крипта',
+    'биржа',
+    'дешево',
+    'бесплатно',
+    'обман',
+    'полиция',
+    'радар',
+]
+
+class StyleFormMixin: # Класс-миксин для стилизации полей формы создания/редактирования товара
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -13,7 +27,52 @@ class StyleFormMixin:
                 field.widget.attrs['class'] = 'form-control'
 
 
-class ProductForm(StyleFormMixin, ModelForm):
+class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('created_at', 'updated_at',)
+
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Укажите название товара',
+        })
+
+        self.fields['description'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Добавьте описание товара',
+        })
+
+        self.fields['photo'].widget.attrs.update({
+            'class': 'form-control',
+        })
+
+        self.fields['category'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Укажите категорию товара',
+        })
+
+        self.fields['price'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Укажите цену товара'
+        })
+
+    def clean_name(self): # Проверка на наличие запрещенных слов в названии товара
+        cleaned_data = super().clean()
+        product_name = cleaned_data.get('name', '').lower()
+        for word in FORBIDDEN_WORDS:
+            if word in product_name:
+                raise ValidationError(f'Использование слова "{word}" запрещено.')
+
+        return product_name
+
+    def clean_description(self): # Проверка на наличие запрещенных слов в описании товара
+        cleaned_data = super().clean()
+        product_description = cleaned_data.get('description', '').lower()
+        for word in FORBIDDEN_WORDS:
+            if word in product_description:
+                raise ValidationError(f'Использование слова "{word}" запрещено.')
+
+        return product_description
