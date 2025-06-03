@@ -52,6 +52,11 @@ class Product(models.Model):
         decimal_places=2,
         verbose_name='Цена',
     )
+    in_stock = models.BooleanField(
+        default=False,
+        verbose_name='Наличие товара',
+        help_text='Отметьте, если товар есть в наличии'
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания карточки товара',
