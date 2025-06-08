@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'blog',
     'common',
+    'users',
 ]
 
 MIDDLEWARE = [
