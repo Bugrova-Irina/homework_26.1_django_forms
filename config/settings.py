@@ -101,8 +101,10 @@ DATABASES = {
 }
 
 DATABASE_ROUTERS = [
+    'config.routers.SystemAppsRouter',
     'config.routers.CatalogRouter',
     'config.routers.BlogRouter',
+    'config.routers.UsersRouter',
 ]
 
 # Password validation
@@ -165,5 +167,5 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 AUTH_USER_MODEL = 'users.User'
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL ='/'
+LOGIN_REDIRECT_URL = 'catalog:home'
+LOGOUT_REDIRECT_URL ='users:login'
