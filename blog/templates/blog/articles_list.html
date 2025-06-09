@@ -28,8 +28,10 @@
                         <li>- Количество просмотров: {{ article.view_counter }}</li>
                     </ul>
                     <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blog:article_detail' article.pk %}">Читать</a>
+                    {% if user.is_authenticated %}
                     <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blog:article_update' article.pk %}">Редактировать</a>
                     <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blog:article_delete' article.pk %}">Удалить</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

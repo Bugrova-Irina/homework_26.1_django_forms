@@ -28,8 +28,10 @@
                         <li>- Категория: {{ product.category }}</li>
                     </ul>
                     <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_detail' product.pk %}">Купить</a>
+                    {% if user.is_authenticated %}
                     <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_update' product.pk %}">Редактировать</a>
                     <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_delete' product.pk %}">Удалить</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
