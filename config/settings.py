@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalog.apps.CatalogConfig',
-    'blog',
     'common',
     'users',
 ]
@@ -90,22 +89,8 @@ DATABASES = {
         'HOST': os.getenv('HOST'),
         'PORT': os.getenv('PORT'),
     },
-    'blog': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('DB_NAME_BLOG'), # база для блога
-            'USER': os.getenv('USER'),
-            'PASSWORD': os.getenv('PASSWORD'),
-            'HOST': os.getenv('HOST'),
-            'PORT': os.getenv('PORT'),
-        }
 }
 
-DATABASE_ROUTERS = [
-    'config.routers.SystemAppsRouter',
-    'config.routers.CatalogRouter',
-    'config.routers.BlogRouter',
-    'config.routers.UsersRouter',
-]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
