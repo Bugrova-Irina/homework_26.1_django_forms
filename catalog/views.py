@@ -42,15 +42,15 @@ class ProductCreateView(CreateView, LoginRequiredMixin):
 class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """ Класс для редактирования продукта """
     model = Product
-    form_class = ProductModeratorForm
+    form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:home')
     permission_required = 'catalog.change_product'
 
     def get_form_class(self):
         user = self.request.user
-        # если авторизован владелец продукта, загружается форма ProductForm
-        if user == self.object.owner:
+        # если авторизован владелец продукта и он не модератор, загружается форма ProductForm
+        if user == self.object.owner and not user.has_perm('catalog.can_unpublish_product'):
             return ProductForm
 
         # если авторизован модератор, загружается форма ProductModeratorForm
