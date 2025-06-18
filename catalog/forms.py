@@ -30,15 +30,10 @@ class StyleFormMixin: # Класс-миксин для стилизации по
 class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ('created_at', 'updated_at',)
+        exclude = ('created_at', 'updated_at', 'owner',)
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
         super(ProductForm, self).__init__(*args, **kwargs)
-
-        # скрываем поле is_published, если у пользователя нет прав
-        if self.user and not self.user.has_perm('catalog.can_unpublish_product'):
-            self.fields.pop('is_published', None)
 
         self.fields['name'].widget.attrs.update({
             'class': 'form-control',
@@ -87,3 +82,9 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         if price < 0:
             raise ValidationError('Цена товара не может быть меньше нуля.')
         return price
+
+
+class ProductModeratorForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Product
+        exclude = ('created_at', 'updated_at', 'is_published', 'owner',)

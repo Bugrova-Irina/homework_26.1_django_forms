@@ -29,8 +29,10 @@
                     </ul>
                     <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_detail' product.pk %}">Купить</a>
                     {% if user.is_authenticated %}
-                        {% if perms.catalog.change_product %}
+                        {% if user == product.owner %}
                         <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_update' product.pk %}">Редактировать</a>
+                        {% endif %}
+                        {% if perms.catalog.can_unpublish_product or user == product.owner %}
                         <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_delete' product.pk %}">Удалить</a>
                         {% endif %}
                     {% endif %}
