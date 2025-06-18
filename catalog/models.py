@@ -67,12 +67,20 @@ class Product(models.Model):
         verbose_name='Дата обновления карточки товара',
         help_text='Указывается дата и время обновления данных о товаре',
     )
+    is_published = models.BooleanField(
+        default=False,
+        verbose_name='Опубликовано',
+        help_text='Отметьте для публикации товара',
+    )
 
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
         ordering = ['name', 'category', 'price']
         app_label = 'catalog'
+        permissions = [
+            ('can_unpublish_product', 'Can unpublish product'),
+        ]
 
     def __str__(self):
         return self.name

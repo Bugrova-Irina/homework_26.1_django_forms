@@ -33,7 +33,12 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         exclude = ('created_at', 'updated_at',)
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
         super(ProductForm, self).__init__(*args, **kwargs)
+
+        # скрываем поле is_published, если у пользователя нет прав
+        if self.user and not self.user.has_perm('catalog.can_unpublish_product'):
+            self.fields.pop('is_published', None)
 
         self.fields['name'].widget.attrs.update({
             'class': 'form-control',
