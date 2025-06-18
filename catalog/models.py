@@ -4,6 +4,7 @@ from users.models import User
 
 
 class Category(models.Model):
+    """ Модель категории продукта """
     name = models.CharField(
         max_length=200,
         verbose_name='Название категории',
@@ -27,6 +28,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    """ Модель продукта """
     name = models.CharField(
         max_length=250,
         verbose_name='Название товара',
@@ -89,6 +91,7 @@ class Product(models.Model):
         verbose_name_plural = 'продукты'
         ordering = ['name', 'category', 'price']
         app_label = 'catalog'
+        # добавление кастомного права
         permissions = [
             ('can_unpublish_product', 'Can unpublish product'),
         ]
@@ -98,6 +101,7 @@ class Product(models.Model):
 
 
 class Article(models.Model):
+    """ Модель статьи """
     title = models.CharField(
         max_length=300, verbose_name="Заголовок", help_text="Введите заголовок статьи"
     )

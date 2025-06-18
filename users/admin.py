@@ -4,5 +4,5 @@ from users.models import User
 
 
 @admin.register(User)
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(admin.ModelAdmin): # отображение пользователей в админке
     list_display = ('id', 'email')

@@ -5,6 +5,7 @@ from django.forms import BooleanField
 from catalog.models import Product
 
 
+# список запрещенных слов
 FORBIDDEN_WORDS = [
     'казино',
     'криптовалюта',
@@ -28,9 +29,10 @@ class StyleFormMixin: # Класс-миксин для стилизации по
 
 
 class ProductForm(StyleFormMixin, forms.ModelForm):
+    """ Класс формы создания/редактирования товара для пользователя с правами редактирования """
     class Meta:
         model = Product
-        exclude = ('created_at', 'updated_at', 'owner',)
+        exclude = ('created_at', 'updated_at', 'is_published', 'owner',)
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -85,6 +87,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
 
 class ProductModeratorForm(StyleFormMixin, forms.ModelForm):
+    """ Класс формы создания/редактирования товара для пользователя с правами модератора """
     class Meta:
         model = Product
-        exclude = ('created_at', 'updated_at', 'is_published', 'owner',)
+        exclude = ('created_at', 'updated_at', 'owner',)
