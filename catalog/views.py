@@ -59,10 +59,26 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
         raise PermissionDenied
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     """ Класс для удаления продукта """
     model = Product
     success_url = reverse_lazy('catalog:home')
+
+    def get_object(self, queryset=None):
+        """ Возвращает объект для удаления с предварительной проверкой прав """
+        obj = super().get_object(queryset)
+        user = self.request.user
+
+        # проверяем, что пользователь является модератором
+        has_unpublish_permission = user.has_perm('catalog.can_unpublish_product')
+
+        # проверяем владение продуктом
+        is_owner = obj.owner == user
+
+        if not (has_unpublish_permission or is_owner):
+            raise PermissionDenied("У вас нет прав для удаления этого продукта")
+
+        return obj
 
 
 class ContactsView(TemplateView):
@@ -129,3 +145,4 @@ class ArticleDeleteView(DeleteView):
     model = Article
     template_name = 'catalog/article_confirm_delete.html'
     success_url = reverse_lazy('catalog:articles_list')
+

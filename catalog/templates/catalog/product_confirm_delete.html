@@ -3,6 +3,11 @@
 <div class="container">
     <div class="row">
         <div class="col-6">
+            {% if not perms.catalog.can_unpublish_product and object.owner != user %}
+            <div class="alert alert-danger">
+                У вас нет прав для удаления этого продукта
+            </div>
+            {% endif %}
             <form class="row" method="post" enctype="multipart/form-data">
                 <div class="card">
                     <p class="card-text">Действительно хотите удалить товар "{{ product.name }}"?</p>
