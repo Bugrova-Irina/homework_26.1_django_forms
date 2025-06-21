@@ -47,6 +47,7 @@ users. Ограничены права для неавторизованных �
  - Pillow
  - python-dotenv
  - psycopg2 или psycopg2-binary
+ - redis
 
 ## Установка:
 
@@ -72,6 +73,9 @@ poetry add psycopg2
 ```
 ```
 poetry add python-dotenv
+```
+```
+poetry add redis
 ```
 
 ## Использование:

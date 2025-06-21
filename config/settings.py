@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 
 from django.conf.global_settings import AUTH_USER_MODEL, DEFAULT_FROM_EMAIL, LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
+from django.core.cache import CacheHandler
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -154,3 +155,12 @@ AUTH_USER_MODEL = 'users.User'
 
 LOGIN_REDIRECT_URL = 'catalog:home'
 LOGOUT_REDIRECT_URL ='users:login'
+
+CACHED_ENABLED = True
+if CACHED_ENABLED:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': os.getenv('LOCATION'),
+        }
+    }
