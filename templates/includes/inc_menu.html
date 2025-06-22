@@ -2,6 +2,22 @@
     <h5 class="my-0 mr-md-auto font-weight-normal">Skystore</h5>
     <nav class="ms-5">
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home' %}">Каталог</a>
+        <ul>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Категории
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for category in categories %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'catalog:products_by_category' category.id %}">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:articles_list' %}">Блог</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
         {% if user.is_authenticated %}
