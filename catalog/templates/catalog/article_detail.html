@@ -15,7 +15,7 @@
                     <p class="card-text">{{ article.content }}</p>
                     <p class="card-text">Статья создана: {{ article.created_at }}</p>
                     <p class="card-text">Количество просмотров: {{ article.view_counter }}</p>
-                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blog:articles_list' %}" role="button">Назад</a>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:articles_list' %}" role="button">Назад</a>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
+    """ Модель пользователя """
     username = None
     email = models.EmailField(
         unique=True,

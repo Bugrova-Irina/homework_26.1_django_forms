@@ -12,18 +12,20 @@ from config.settings import EMAIL_HOST_USER
 
 
 class UserCreateView(CreateView):
+    """ Создание пользователя """
     model = User
     form_class = UserRegisterForm
     success_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
-        user = form.save()
-        user.is_active = False
-        token = secrets.token_hex(16)
+        user = form.save() # сохранение результатов заполнения формы
+        user.is_active = False # пользователь создан, но не может авторизоваться на сайте
+        token = secrets.token_hex(16) # токен для пользователя
         user.token = token
         user.save()
         host = self.request.get_host()
-        url = f'http://{host}/users/email-confirm/{token}'
+        url = f'http://{host}/users/email-confirm/{token}' # ссылка для подтверждения регистрации пользователя
+        # отправка письма пользователю для подтверждения регистрации
         send_mail(
             subject='Подтверждение почты',
             message=f'Привет, перейди по ссылке для подтверждения почты {url}',
@@ -34,6 +36,7 @@ class UserCreateView(CreateView):
 
 
 def email_verification(request, token):
+    # если пользователь перешел по ссылке из письма, он может авторизоваться на сайте
     user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
