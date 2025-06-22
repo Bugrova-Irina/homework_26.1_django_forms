@@ -156,8 +156,8 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = 'catalog:home'
 LOGOUT_REDIRECT_URL ='users:login'
 
-CACHED_ENABLED = True
-if CACHED_ENABLED:
+CACHE_ENABLED = True
+if CACHE_ENABLED:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.redis.RedisCache',
