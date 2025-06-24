@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
@@ -21,6 +22,15 @@ class ProductsListView(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all().order_by('name')
         return context
+
+    def get_queryset(self):
+        # получаем закешированные данные по ключу my_queryset
+        queryset = cache.get('my_queryset')
+        # если в кеш ничего нет
+        if not queryset:
+            queryset = super().get_queryset() # выполняем запрос к базе данных
+            cache.set('my_queryset', queryset, 60 * 15) # кешируем данные на 15 минут
+        return queryset
 
 
 class ProductsByCategoryView(ListView):
