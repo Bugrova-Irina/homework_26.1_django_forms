@@ -1,12 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm, ProductModeratorForm
-from catalog.models import Product, Article
+from catalog.models import Product, Article, Category
+from catalog.services import get_products_by_category
 
 
 class ProductsListView(ListView):
@@ -14,6 +16,40 @@ class ProductsListView(ListView):
     model = Product
     template_name = 'catalog/home.html'
     context_object_name = 'products'
+
+    def get_context_data(self, **kwargs):
+        """Добавляем категории в контекст"""
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all().order_by('name')
+        return context
+
+    def get_queryset(self):
+        # получаем закешированные данные по ключу my_queryset
+        queryset = cache.get('my_queryset')
+        # если в кеш ничего нет
+        if not queryset:
+            queryset = super().get_queryset() # выполняем запрос к базе данных
+            cache.set('my_queryset', queryset, 60 * 15) # кешируем данные на 15 минут
+        return queryset
+
+
+class ProductsByCategoryView(ListView):
+    """Класс для отображения товаров по категории"""
+    template_name = 'catalog/products_by_category.html'
+    context_object_name = 'products'
+    paginate_by = 10
+
+    def get_queryset(self):
+        """Возвращает товары для указанной категории"""
+        category_id = self.kwargs['category_id']
+        return get_products_by_category(category_id)
+
+    def get_context_data(self, **kwargs):
+        """Добавляем информацию о категории в контекст"""
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs['category_id']
+        context['category'] = get_object_or_404(Category, id=category_id)
+        return context
 
 
 class ProductDetailView(DetailView):
